@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Garden – Lleida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --verde: #2d4a2d;
+      --verde-claro: #4a7c4a;
+      --crema: #f5f0e8;
+      --crema-oscuro: #ede6d6;
+      --tierra: #8b6f47;
+      --texto: #1a1a1a;
+      --texto-suave: #5a5a5a;
+      --blanco: #fefefe;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--crema);
+      color: var(--texto);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(245, 240, 232, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(45, 74, 45, 0.1);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--verde);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--texto-suave);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--verde); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      background: var(--crema);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%; left: -10%;
+      width: 60%; height: 60%;
+      background: radial-gradient(ellipse, rgba(74,124,74,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -10%; right: -10%;
+      width: 50%; height: 50%;
+      background: radial-gradient(ellipse, rgba(139,111,71,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 720px; }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--verde-claro);
+      border: 1px solid var(--verde-claro);
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--verde);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--tierra);
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--texto-suave);
+      line-height: 1.8;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: var(--verde);
+      color: var(--crema);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--verde-claro); transform: translateY(-1px); }
+
+    .btn-secondary {
+      color: var(--verde);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--verde);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(45,74,45,0.06); transform: translateY(-1px); }
+
+    /* SECCIÓN GENÉRICA */
+    section { padding: 6rem 2rem; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--verde-claro);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      color: var(--verde);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    /* SERVICIOS */
+    .servicios { background: var(--blanco); }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .servicio-card {
+      background: var(--crema);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(45,74,45,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .servicio-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(45,74,45,0.08);
+    }
+
+    .servicio-icon {
+      width: 48px; height: 48px;
+      background: rgba(74,124,74,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .servicio-icon svg { width: 22px; height: 22px; stroke: var(--verde-claro); }
+
+    .servicio-card h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+      color: var(--verde);
+    }
+
+    .servicio-card p {
+      font-size: 0.9rem;
+      color: var(--texto-suave);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* HORARIO */
+    .horario { background: var(--verde); }
+
+    .horario .section-label { color: rgba(245,240,232,0.5); }
+    .horario .section-title { color: var(--crema); }
+
+    .horario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    .horario-tabla { list-style: none; }
+
+    .horario-tabla li {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(245,240,232,0.12);
+      font-size: 0.9rem;
+      color: rgba(245,240,232,0.85);
+      font-weight: 300;
+    }
+
+    .horario-tabla li:last-child { border-bottom: none; }
+
+    .horario-tabla .dia { color: var(--crema); font-weight: 400; }
+
+    .horario-texto p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(245,240,232,0.7);
+      line-height: 1.6;
+    }
+
+    /* CONTACTO */
+    .contacto { background: var(--crema-oscuro); }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+
+    .contacto-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .info-item { display: flex; gap: 1rem; align-items: flex-start; }
+
+    .info-item svg { width: 18px; height: 18px; stroke: var(--verde-claro); margin-top: 2px; flex-shrink: 0; }
+
+    .info-item div { font-size: 0.9rem; color: var(--texto-suave); line-height: 1.6; font-weight: 300; }
+
+    .info-item strong { display: block; color: var(--texto); font-weight: 500; margin-bottom: 2px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* FORMULARIO */
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--texto-suave);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--blanco);
+      border: 1px solid rgba(45,74,45,0.15);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--texto);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group textarea { height: 120px; resize: vertical; }
+
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--verde-claro); }
+
+    .form-submit {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--verde);
+      color: var(--crema);
+      border: none;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .form-submit:hover { background: var(--verde-claro); }
+
+    .form-exito {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background: var(--blanco);
+      border-radius: 12px;
+      border: 1px solid rgba(45,74,45,0.12);
+    }
+
+    .form-exito p { color: var(--verde); font-size: 0.95rem; margin-top: 0.5rem; }
+
+    /* FOOTER */
+    footer {
+      background: var(--texto);
+      color: rgba(245,240,232,0.5);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    footer a { color: rgba(245,240,232,0.5); text-decoration: none; }
+
+    /* ANIMACIONES */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .nav-links a { font-size: 0.75rem; }
+      .horario-grid, .contacto-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <nav>
+    <a class="nav-logo" href="#">The Garden</a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#horario">Horario</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-tag">Rambla de Ferran, Lleida</span>
+      <h1>Un lugar donde<br><em>todo florece</em></h1>
+      <p>Café de especialidad, cocina de temporada y espacios para compartir en el corazón de Lleida.</p>
+      <div class="hero-btns">
+        <a href="#contacto" class="btn-primary">Reservar mesa</a>
+        <a href="#servicios" class="btn-secondary">Ver servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <div class="container">
+      <p class="section-label">Lo que ofrecemos</p>
+      <h2 class="section-title">Experiencias para cada momento</h2>
+      <div class="servicios-grid">
+        <div class="servicio-card">
+          <div class="servicio-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+          </div>
+          <h3>Cafetería</h3>
+          <p>Cafés de especialidad y bebidas artesanales preparadas con granos seleccionados para empezar el día con energía.</p>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+          </div>
+          <h3>Cocina de temporada</h3>
+          <p>Platos frescos elaborados con productos locales y de temporada. Sabor auténtico con ingredientes de proximidad.</p>
+        </div>
+        <div class="servicio-card">
+          <div class="servicio-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 0 0-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 0 1 5.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 0 1 9.288 0M15 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>
+          </div>
+          <h3>Eventos y celebraciones</h3>
+          <p>Reserva nuestro espacio para tus celebraciones, reuniones de empresa o encuentros especiales. Te ayudamos a organizarlo todo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO -->
+  <section class="horario" id="horario">
+    <div class="container">
+      <p class="section-label">Cuándo visitarnos</p>
+      <h2 class="section-title">Horario</h2>
+      <div class="horario-grid">
+        <ul class="horario-tabla">
+          <li><span class="dia">Lunes – Viernes</span><span>8:00 – 22:00</span></li>
+          <li><span class="dia">Sábado</span><span>9:00 – 23:00</span></li>
+          <li><span class="dia">Domingo</span><span>10:00 – 20:00</span></li>
+          <li><span class="dia">Festivos</span><span>10:00 – 20:00</span></li>
+        </ul>
+        <div class="horario-texto">
+          <p>"Un espacio donde el tiempo pasa despacio y cada visita se convierte en un recuerdo."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="container">
+      <p class="section-label">Estamos aquí</p>
+      <h2 class="section-title">Contacto y reservas</h2>
+      <div class="contacto-grid">
+        <div class="contacto-info">
+          <div class="info-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z"/></svg>
+            <div><strong>Dirección</strong>Rambla de Ferran, 11<br>25007 Lleida</div>
+          </div>
+          <div class="info-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 6.75z"/></svg>
+            <div><strong>Teléfono</strong>873 431 157</div>
+          </div>
+          <div class="info-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            <div><strong>Email</strong>hola@thegarden-lleida.es</div>
+          </div>
+        </div>
+
+        <div>
+          <div id="formulario">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" placeholder="Tu nombre" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="tu@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Mensaje</label>
+              <textarea placeholder="¿En qué podemos ayudarte?"></textarea>
+            </div>
+            <button class="form-submit" onclick="enviar()">Enviar mensaje</button>
+          </div>
+          <div class="form-exito" id="exito">
+            <p style="font-size:1.5rem">✓</p>
+            <p>¡Mensaje recibido! Te respondemos en menos de 24h.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 The Garden · Rambla de Ferran 11, Lleida · <a href="tel:873431157">873 431 157</a></p>
+  </footer>
+
+  <script>
+    function enviar() {
+      document.getElementById('formulario').style.display = 'none';
+      document.getElementById('exito').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
